@@ -161,12 +161,13 @@ func (t Type) dump(verbose bool) string {
 		if t.Type.(Class).SuperClass != "" {
 			superClass = fmt.Sprintf(": %s", t.Type.(Class).SuperClass)
 		}
-		if t.Type.(Class).Flags.KindSpecific().HasResilientSuperclass() {
-			superClass = t.Type.(Class).ResilientSuperclass.Type.Name
-			if t.Type.(Class).ResilientSuperclass.Type.Parent.Name != "" {
-				superClass += t.Type.(Class).ResilientSuperclass.Type.Parent.Name + "." + superClass
-			}
-		}
+        if t.Type.(Class).Flags.KindSpecific().HasResilientSuperclass() {
+             if t.Type.(Class).ResilientSuperclass.Type.Parent.Name != "" {
+                 superClass = fmt.Sprintf(": %s", t.Type.(Class).ResilientSuperclass.Type.Parent.Name + "." + t.Type.(Class).ResilientSuperclass.Type.Name)
+             } else {
+                 superClass = fmt.Sprintf(": %s", t.Type.(Class).ResilientSuperclass.Type.Name)
+             }
+        }
 		var impinf string
 		if t.ImportInfo != "" {
 			impinf = fmt.Sprintf("typealias %s %s\n", t.ImportInfo, t.Name)
